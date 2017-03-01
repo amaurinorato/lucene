@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>br.com.fiap</groupId>
+  <artifactId>LuceneEAR</artifactId>
+  <packaging>ear</packaging>
+  <name>LuceneEAR</name>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-ear-plugin</artifactId>
+        <configuration>
+          <modules>
+            <webModule>
+              <groupId>br.com.fiap</groupId>
+              <artifactId>LuceneWeb</artifactId>
+              <bundleFileName>LuceneWeb.war</bundleFileName>
+              <contextRoot>/LuceneWeb</contextRoot>
+            </webModule>
+          </modules>
+          <displayName>My Ear Name displayed in the App Server</displayName>
+          <!-- If I want maven to generate the application.xml, set this to true -->
+          <generateApplicationXml>true</generateApplicationXml>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.0.2</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+    </plugins>
+    <finalName>LuceneEAR</finalName>
+  </build>
+
+  <!-- Define the versions of your ear components here -->
+  <dependencies>
+    <dependency>
+      <groupId>br.com.fiap</groupId>
+      <artifactId>LuceneWeb</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>br.com.fiap</groupId>
+      <artifactId>LuceneJar</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <type>jar</type>
+    </dependency>
+  </dependencies>
+</project>

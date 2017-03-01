@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="LuceneEAR">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
+        <dependent-module archiveName="LuceneWeb.war" deploy-path="/" handle="module:/resource/LuceneWeb/LuceneWeb">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="LuceneJar-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/LuceneJar/LuceneJar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="lucene-core-6.0.0.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/apache/lucene/lucene-core/6.0.0/lucene-core-6.0.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="lucene-analyzers-common-6.0.0.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/apache/lucene/lucene-analyzers-common/6.0.0/lucene-analyzers-common-6.0.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="lucene-queryparser-6.0.0.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/apache/lucene/lucene-queryparser/6.0.0/lucene-queryparser-6.0.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="lucene-queries-6.0.0.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/apache/lucene/lucene-queries/6.0.0/lucene-queries-6.0.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="lucene-sandbox-6.0.0.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/apache/lucene/lucene-sandbox/6.0.0/lucene-sandbox-6.0.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>
