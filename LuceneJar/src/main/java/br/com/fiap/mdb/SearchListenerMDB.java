@@ -3,7 +3,6 @@ package br.com.fiap.mdb;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,9 +19,8 @@ import javax.jms.TextMessage;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
@@ -34,7 +32,6 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.RAMDirectory;
 
 import br.com.fiap.model.Search;
 
@@ -105,7 +102,7 @@ public class SearchListenerMDB implements MessageListener {
 				System.out.println(messageObject.getWord());
 				search(messageObject.getWord());
 			} else {
-				System.out.println("Nenhuma mensagem válida!");
+				System.out.println("Nenhuma mensagem vï¿½lida!");
 			}
 		} catch (JMSException e) {
 			e.printStackTrace();
@@ -132,7 +129,4 @@ public class SearchListenerMDB implements MessageListener {
 			e.printStackTrace();
 		}               
 	}
-
-
-
 }
