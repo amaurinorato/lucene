@@ -49,6 +49,7 @@ public class SearchServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String word = "";
 		try {
 			System.out.println(getClass() + "Inicio........");
 			Connection connection = conn.createConnection();
@@ -58,7 +59,8 @@ public class SearchServlet extends HttpServlet {
 				MessageProducer messageProducer = session.createProducer(filaSearch);
 				ObjectMessage objMessage = session.createObjectMessage();
 				Search search = new Search();
-				search.setWord(request.getParameter("word"));
+				word = request.getParameter("word");
+				search.setWord(word);
 				objMessage.setObject(search);
 				messageProducer.send(objMessage);
 				messageProducer.close();
@@ -66,6 +68,7 @@ public class SearchServlet extends HttpServlet {
 				connection.close();
 			}
 			request.setAttribute("msg", "Pesquisa realizada com sucesso. Confira os resultados");
+			request.setAttribute("word", word);
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		} catch (Exception ex) {
 			ex.printStackTrace();

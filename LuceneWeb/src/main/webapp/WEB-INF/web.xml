@@ -9,4 +9,24 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>ResultadoServlet</display-name>
+    <servlet-name>ResultadoServlet</servlet-name>
+    <servlet-class>br.com.fiap.servlet.ResultadoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ResultadoServlet</servlet-name>
+    <url-pattern>/resultado</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DownloadServlet</display-name>
+    <servlet-name>DownloadServlet</servlet-name>
+    <servlet-class>br.com.fiap.servlet.DownloadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DownloadServlet</servlet-name>
+    <url-pattern>/download</url-pattern>
+  </servlet-mapping>
 </web-app>

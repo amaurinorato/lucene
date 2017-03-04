@@ -6,9 +6,12 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.ActivationConfigProperty;
+import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -33,6 +36,8 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+import br.com.fiap.dao.ResultadoDAO;
+import br.com.fiap.model.Resultado;
 import br.com.fiap.model.Search;
 
 /**
@@ -46,9 +51,11 @@ import br.com.fiap.model.Search;
 		})
 public class SearchListenerMDB implements MessageListener {
 
+	@EJB
+	private ResultadoDAO resultadoDAO;
+	
 	static {
 		try {  
-			//indexing directory    
 			Path path = Paths.get("C:/lucene/indexes");
 			Directory directory = FSDirectory.open(path);
 			IndexWriterConfig config = new IndexWriterConfig(new SimpleAnalyzer());        
@@ -56,9 +63,9 @@ public class SearchListenerMDB implements MessageListener {
 			indexWriter.deleteAll();
 			File f = new File("C:/lucene/sample"); // current directory     
 			for (File file : f.listFiles()) {
-				System.out.println("indexed " + file.getCanonicalPath());               
 				Document doc = new Document();
-				doc.add(new TextField("path", file.getName(), Store.YES));
+				doc.add(new TextField("path", file.getAbsolutePath(), Store.YES));
+				doc.add(new TextField("filename", file.getName(), Store.YES));
 				FileInputStream is = new FileInputStream(file);
 				BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 				StringBuffer stringBuffer = new StringBuffer();
@@ -73,7 +80,6 @@ public class SearchListenerMDB implements MessageListener {
 			indexWriter.close();           
 			directory.close();
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}  
 	}
@@ -95,12 +101,11 @@ public class SearchListenerMDB implements MessageListener {
 				TextMessage msg = (TextMessage) message;
 				System.out.println("Message is : " + msg.getText());
 			} else if (message instanceof ObjectMessage) {
-				System.out.println("Queue: ObjectMessage recebida em " + new Date());
 				ObjectMessage msg = (ObjectMessage) message;
 				Search messageObject = (Search) msg.getObject();
-				System.out.println("Detalhes do cliente: ");
-				System.out.println(messageObject.getWord());
-				search(messageObject.getWord());
+				String word = messageObject.getWord();
+				resultadoDAO.resutados.remove(word);
+				search(word);
 			} else {
 				System.out.println("Nenhuma mensagem v�lida!");
 			}
@@ -112,18 +117,27 @@ public class SearchListenerMDB implements MessageListener {
 	private void search(String text) {   
 		//Apache Lucene searching text inside .txt files
 		try {   
-			Path path = Paths.get("C://lucene/indexes");
+			String folder = "C://lucene/indexes";
+			Path path = Paths.get(folder);
 			Directory directory = FSDirectory.open(path);       
 			IndexReader indexReader =  DirectoryReader.open(directory);
 			IndexSearcher indexSearcher = new IndexSearcher(indexReader);
 			QueryParser queryParser = new QueryParser("contents",  new StandardAnalyzer());  
 			Query query = queryParser.parse(text);
 			TopDocs topDocs = indexSearcher.search(query,10);
-			System.out.println("totalHits " + topDocs.totalHits);
-			for (ScoreDoc scoreDoc : topDocs.scoreDocs) {           
+
+			List<Resultado> resultados = new ArrayList<Resultado>();;
+			
+			for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
 				Document document = indexSearcher.doc(scoreDoc.doc);
-				System.out.println("path " + document.get("path"));
-				System.out.println("content " + document.get("contents"));
+				Resultado r = new Resultado();
+				r.setNomeArquivo(document.get("filename"));
+				r.setLink(document.get("path"));
+				resultados.add(r);
+			}
+			
+			if (!resultados.isEmpty()) {
+				this.resultadoDAO.resutados.put(text, resultados);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

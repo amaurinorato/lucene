@@ -6,15 +6,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Pesquisa</title>
+<title>Resultados</title>
 </head>
 <body>
 	<c:out value="${msg}"></c:out>
 	<form action="search" method="post">
-		<label for="word">Palavra para buscar: </label>
-		<input type="text" name="word" id="word"/>
-		<input type="submit" value="Buscar"/>
-		<a href="resultado?word=<c:out value='${word}'/>">Resultado</a>
+		<table align="center" border="1">
+			<thead>
+				<tr>
+					<th>Nome Arquivo</th>
+					<th>Caminho</th>
+					<th>Download</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${resultados}" var="res">
+					<tr>
+						<td><c:out value="${res.nomeArquivo}"/></td>
+						<td><c:out value="${res.link}"/></td>
+						<td><a href="download?path=<c:out value='${res.link}'/>">Download</a></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</form>
 </body>
 </html>
